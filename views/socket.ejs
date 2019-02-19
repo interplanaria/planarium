@@ -1,0 +1,516 @@
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- meta -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@_unwriter" />
+<meta name="twitter:title" content="bitsocket" />
+<meta name="twitter:description" content="The Message Bus for Bitcoin" />
+<meta name="twitter:image" content="https://bitsocket.org/bitsocket.png" />
+<meta property="og:url" content="https://bitsocket.org" />
+<meta property="og:type"   content="website" />
+<meta property="og:title" content="bitsocket" />
+<meta property="og:description" content="The Message Bus for Bitcoin" />
+<meta property="og:image" content="https://bitsocket.org/bitsocket.png" />
+<style>
+body {
+  font-family: "Helvetica Neue", helvetica, arial;
+  font-size: 12px;
+  margin: 0;
+  background: #f9f0cd;
+}
+body.dark {
+  background: #201a1c;
+}
+.content {
+  border-bottom: 1px rgba(255,255,255,0.1) solid;
+}
+body.dark .container {
+  color: #d39f57;
+}
+.container {
+  color: rgba(0,0,0,0.7);
+}
+header {
+  display: flex;
+  align-items: center;
+}
+.flexible {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+body.dark header > a {
+  color: #d39f57;
+}
+header > a {
+  color: rgba(0,0,0,0.7);
+  font-family: "Helvetica Neue", helvetica, arial;
+  text-decoration: none;
+}
+header > .item {
+  display: inline-block;
+  font-size: 12px;
+  border-left: 1px solid rgba(255,255,255,0.3);
+  padding: 0 10px;
+  margin: 12px 0;
+}
+.item.highlighted {
+  color: #A5C261;
+}
+/*
+.header {
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+*/
+body.dark button {
+  background: #d39f57;
+}
+button {
+  padding: 10px;
+  /*
+  background: gold;
+  */
+  background: #A5C261;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+button.active {
+  background: rgba(0,0,0,0.8);
+  color: gold;
+}
+button:focus {
+  outline: 0;
+}
+button.collapsed {
+  width: 0;
+  overflow: hidden;
+  padding: 0;
+}
+input.url:focus{
+  outline: none;
+}
+body.dark input.url {
+  color: #d39f57;
+  background: rgba(0,0,0,0.5);
+}
+input.url {
+  background: rgba(0,0,0, 0.1);
+  padding: 10px;
+  border: none;
+  font-family: Menlo, monaco, Courier;
+  font-size: 11px;
+  transition: background 1000ms ease-in;
+  border-radius: 0;
+  -webkit-appearance:none;
+}
+input.url.updated {
+  background: gold;
+}
+a.brand {
+  font-weight: bold;
+  flex-shrink: 0;
+  margin: 10px;
+  font-size: 16px;
+  font-family: "Helvetica Neue", helvetica, arial;
+}
+a.brand img {
+  height: 25px;
+}
+.flex {
+  align-items: center;
+  display: flex;
+}
+.label {
+  padding: 10px;
+}
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  /*
+  margin: 0 10px;
+  */
+  padding: 5px 10px;
+  border-radius: 0;
+  border: none;
+}
+select:focus {
+  outline: none;
+}
+
+body.dark .row {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.row {
+  display: flex;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  /*
+  transition: all 0.1s ease-out;
+  opacity: 0;
+  transform-origin: top;
+  transform: scale(1, 0);
+  */
+}
+.row.show {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.timestamp {
+/*
+  text-align: right;
+  text-align: center;
+  */
+  /*
+  background: rgba(255,255,255,0.02);
+  */
+  border-left: 1px solid rgba(255,255,255,0.1);
+  font-family: Menlo, monaco, courier;
+  font-size: 12px;
+  min-width: 80px;
+  padding: 10px 20px;
+}
+
+#editor {
+  background-color: rgba(0,0,0,0.2) !important;
+  width: 100%;
+  height: 200px;
+}
+.stream pre {
+  font-size: 11px;
+  font-family: Menlo, monaco, Courier;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  margin:0;
+  padding:10px;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-all;
+  min-width: 0;
+  overflow: auto;
+}
+body.dark .loading {
+  color: #d39f57;
+}
+.loading {
+  padding: 15px;
+  text-align: center;
+  font-size: 12px;
+  /*
+  background: rgba(0,0,0,0.8);
+  */
+}
+.actions {
+  margin: 0 10px;
+}
+body.dark .action-item {
+  color: #d39f57;
+}
+.action-item {
+  color: rgba(0,0,0,0.8);
+  padding: 0 5px;
+}
+.bar {
+  text-align: center;
+  padding-right: 10px;
+}
+.bar a {
+  display: inline-block;
+  color: rgba(255,255,255,0.6);
+  padding: 5px;
+  text-decoration: none;
+}
+.curtain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  text-align: center;
+  color: white;
+  padding-top: 30%;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.hidden {
+  display: none !important;
+}
+</style>
+<link rel="stylesheet" href="/assets/socket.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/mode-json.js"></script>
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<script>
+var bitsocket = {
+  source: null,
+  events: {},
+  open: function(query) {
+    console.log("Opening ", query)
+    var b64 = btoa(JSON.stringify(query))
+    var url = location.protocol + "//" + location.host
+    if (bitsocket.source) bitsocket.source.close();
+    bitsocket.source = new EventSource(url+'/s/<%=address%>/'+b64)
+    bitsocket.source.addEventListener('message', function(e) {
+      var m = JSON.parse(e.data)
+      if (bitsocket.events.message) {
+        if (m.type != "open") {
+          bitsocket.events.message(m)
+        }
+      }
+    }, false)
+    bitsocket.source.addEventListener('open', function(e) {
+      if (bitsocket.events.open) {
+        bitsocket.events.open(e)
+      }
+    }, false)
+    bitsocket.source.addEventListener('error', function(e) {
+      console.log("state = ", e.target.readyState)
+      if (e.target.readyState == EventSource.CLOSED) {
+        console.log("CLOSED")
+        if (bitsocket.events.close) {
+          bitsocket.events.close(e)
+        }
+      } else if (e.target.readyState == EventSource.CONNECTING) {
+        console.log("Connecting...", e);
+        if (bitsocket.events.close) {
+          bitsocket.events.close(e)
+        }
+      }
+    }, false)
+  },
+  close: function() {
+    bitsocket.source.close()
+    if (bitsocket.events.close) {
+      bitsocket.events.close()
+    }
+  },
+  on: function(type, cb) {
+    bitsocket.events[type] = cb;
+  }
+}
+var q;
+var audio = {
+  u: new Audio('/u.mp3'),
+  c: new Audio('/c.mp3'),
+  muted: false,
+  loaded: {}
+}
+audio.c.loop = false;
+audio.u.loop = false;
+audio.c.load();
+audio.u.load();
+audio.loaded.u = true
+audio.loaded.c = true
+
+var play = function(type) {
+  try {
+    if (audio.loaded[type]) {
+      console.log("already initialized")
+      audio[type].play().catch(function(e) {
+        console.log("Error = ", e)
+      });
+    } else {
+      // first time
+      console.log("first time")
+      audio[type] = new Audio()
+      audio[type].loop = false;
+      audio[type].addEventListener("canplaythrough",function(){
+        console.log("loaded", type)
+        audio[type].play().catch(function(e) {
+          console.log("Error = ", e)
+        });
+      });
+      audio[type].src= '/assets/' + type + '.mp3'
+      audio[type].load();
+      audio.loaded[type] = true
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+var editor;
+var listen = function(q) {
+  console.log('listen q = ', q)
+  bitsocket.open(q)
+  bitsocket.on("open", function(e) {
+    document.querySelector(".loading i.spinner").classList.add("fa-spin")
+    document.querySelector(".loading .msg").innerHTML = "listening..."
+    console.log(e)
+  })
+  bitsocket.on("close", function(e) {
+    document.querySelector(".loading i.spinner").classList.remove("fa-spin")
+    document.querySelector(".loading .msg").innerHTML = "stopped..."
+    console.log(e)
+  })
+  bitsocket.on("message", function(m) {
+    console.log(m)
+    var data = m.data;
+    var type = m.type;
+    var stream = document.querySelector(".stream");
+    if (data && data != []) {
+      var d = new Date()
+      var hour = d.getHours();
+      var apm = (hour > 12 ? "PM" : "AM")
+      hour = (hour > 12 ? hour-12 : hour)
+
+      var min = d.getMinutes()
+      min = (min >= 10 ? min : "0" + min)
+
+      var sec = d.getSeconds()
+      sec = (sec >= 10 ? sec : "0" + sec)
+
+      var div = document.createElement("div")
+      div.setAttribute("class", "row")
+
+      div.innerHTML = "<pre class='col flex'>"
+        + JSON.stringify(data, null, 2)
+      + "</pre>"
+      + "<div class='timestamp'>" 
+        + "<div>" + type + "</div>"
+        + hour + ":" + min + ":" + sec + " " + apm
+      + "</div>"
+      stream.insertBefore(div, stream.childNodes[0])
+      /*
+      setTimeout(function() {
+        div.classList.add("show")
+      }, 1000);
+      */
+
+      play(type)
+    }
+  })
+}
+var updateUrl = function(query) {
+  var endpoint = window.location.origin + "/s/<%=address%>/";
+  var base64 = btoa(query)
+  var u = document.querySelector(".url");
+  u.value = endpoint + base64;
+  u.classList.add("updated");
+  setTimeout(function() {
+    u.classList.remove("updated");
+  }, 500)
+}
+
+document.addEventListener("DOMContentLoaded", function(e) {
+  editor = ace.edit("editor");
+  editor.session.setMode("ace/mode/json");
+  //editor.setTheme("ace/theme/twilight");
+  //editor.setTheme("ace/theme/gruvbox");
+  editor.setTheme("ace/theme/mono_industrial");
+  //editor.setTheme("ace/theme/kr_theme");
+  //editor.setTheme("ace/theme/idle_fingers");
+  editor.setShowPrintMargin(false);
+  editor.setOptions({
+    maxLines: Infinity,
+    minLines: 3,
+    tabSize: 2,
+    useSoftTabs: true
+  })
+  editor.selection.moveCursorFileStart();
+  editor.getSession().on('change', function() {
+    var query = editor.getValue();
+    history.pushState(null, null, window.location.origin + "/socket/<%=address%>/" + btoa(query));
+    update(query)
+    document.querySelector("button#query").classList.remove("collapsed")
+  })
+  document.querySelector("#query").addEventListener("click", function(e) {
+    var btn = document.querySelector("#query")
+    btn.classList.add("active")
+    btn.innerHTML = "Connecting..."
+    setTimeout(function() {
+      btn.innerHTML = "Connected! "
+      setTimeout(function() {
+        document.querySelector("button#query").classList.add("collapsed")
+        btn.innerHTML = "Connect to Channel"
+        btn.classList.remove("active")
+      }, 1000)
+    }, 500)
+    listen(q)
+  })
+  document.querySelector(".curtain").addEventListener("click", function(e) {
+    document.querySelector(".curtain").classList.add("hidden")
+  })
+  /*
+  document.querySelector("select").addEventListener("change", function(e) {
+    var query = e.target.value;
+    editor.setValue(query)
+    editor.selection.moveCursorFileStart();
+    update(query)
+    listen(q)
+  })
+  */
+  document.querySelector(".actions").addEventListener("click", function(e) {
+    var action_id = e.target.closest(".action-item").id
+    console.log(action_id)
+    if (action_id === 'action-play') {
+      bitsocket.open(q)
+    } else if (action_id === 'action-stop') {
+      bitsocket.close()
+    } else if (action_id === 'action-mute') {
+      audio.u.muted = !audio.u.muted;
+      audio.c.muted = !audio.c.muted;
+      audio.muted = !audio.muted;
+      document.querySelector("#action-mute i").className = (audio.muted ? 'fas fa-volume-off' : 'fas fa-volume-mute');
+    }
+    e.stopPropagation();
+    e.preventDefault();
+  })
+  var query = editor.getValue();
+  update(query)
+  listen(q)
+})
+var update = function(query) {
+  updateUrl(query)
+  try {
+    q = JSON.parse(query)
+  } catch (e) {
+  }
+}
+</script>
+</head>
+<body class='dark'>
+<div class='container'>
+  <header>
+    <a href='/' class='brand'><%=name%></a>
+    <a href='https://docs.planaria.network' class='item'>docs</a>
+    <div class='flexible'></div>
+    <span class='item'><%=version%></span>
+    <span class='actions'>
+      <a id='action-play' href='#' class='action-item'><i class='fas fa-play'></i></a>
+      <a id='action-stop' href='#' class='action-item'><i class='fas fa-stop'></i></a>
+      <a id='action-mute' href='#' class='action-item'><i class='fas fa-volume-mute'></i></a>
+    </span>
+  </header>
+  <div class='jumbotron align-center header'>
+    <div id='editor'><%=code%></div>
+    <div class='flex'>
+      <span class="label">API endpoint</span>
+      <input readonly class='flexible url'>
+      <button id='query' class='collapsed'>Connect to Channel</button>
+    </div>
+  </div>
+  <div class='loading'>
+    <span class='led'>
+      <span>
+        <i class="fas fa-power-off spinner"></i>
+      </span>
+      <span class='msg'></span>
+    </span>
+  </div>
+  <div class='stream'></div>
+</div>
+<div class='curtain'>Click to Start</div>
+</body>
+</html>
+

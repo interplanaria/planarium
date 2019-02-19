@@ -1,0 +1,104 @@
+<html>
+<head>
+<title></title>
+<meta name="viewport" content="width=device-width">
+<!-- meta -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@_unwriter" />
+<meta name="twitter:title" content="<%=genes[0].planaria.name%>" />
+<meta name="twitter:description" content="<%=genes[0].planaria.description%>" />
+<meta name="twitter:image" content="<%=meta.host%>/logo.png" />
+<meta property="og:url" content="<%=meta.host%>" />
+<meta property="og:type"   content="website" />
+<meta property="og:title" content="<%=genes[0].planaria.name%>" />
+<meta property="og:description" content="<%=genes[0].planaria.description%>" />
+<meta property="og:image" content="<%=meta.host%>/logo.png" />
+<link href="https://fonts.googleapis.com/css?family=Raleway:700|Roboto" rel="stylesheet">
+<style>
+body {
+  font-family: 'Roboto', sans-serif;
+}
+.name {
+  display: block !important;
+  font-family: 'Raleway', sans-serif !important;
+  margin: 0;
+}
+.description {
+  display: block !important;
+}
+nav {
+  padding: 20px;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+}
+.logo {
+  height: 50px;
+  margin: 50px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.label {
+  font-size: 12px;
+  padding: 5px 0;
+  color: gray;
+}
+.id {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px 0;
+}
+.item {
+  text-decoration: none;
+  color: black;
+  display: block;
+  padding: 20px;
+  margin: 10px 0;
+  background: rgba(0,0,0,0.02);
+  font-size: 14px;
+}
+.row {
+  display: flex;
+  padding: 10px 0 0;
+}
+.btn {
+  text-decoration: none;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 2px;
+  margin: 5px 10px 0 0;
+  display: inline-block;
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+<nav>
+  <img class='logo' src="/logo.png">
+</nav>
+<div class='container'>
+  <% genes.forEach(function(gene) { %>
+    <div class='item'>
+      <h2 class='name'><%=gene.planaria.name%></h2>
+      <div class='id'><%=gene.planaria.address%></div>
+      <div class='label'><%=gene.planaria.version%></div>
+      <div class='label'>Clock: <%=gene.clock%></div>
+      <div class='description'><%=gene.planaria.description%></div>
+      <div class='row'>
+        <div class='col'>
+          <a class='btn' href="/query/<%=gene.address%>" class='item'>Query</a>
+        </div>
+        <div class='col'>
+          <a class='btn' href="/socket/<%=gene.address%>" class='item'>Socket</a>
+        </div>
+        <div class='col'>
+          <a class='btn' href="https://planaria.network/@<%=gene.address%>" class='item'>Network</a>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+</body>
+</html>

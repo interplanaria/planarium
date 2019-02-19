@@ -1,0 +1,27 @@
+{
+  "name": "planarium",
+  "version": "0.0.2",
+  "description": "Planaria HTTP + SSE Service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "build": "docker build -t planarium/planarium .",
+    "push": "docker build -t planarium/planarium . ; docker push planarium/planarium"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcode": "0.0.7",
+    "bitcoind-rpc": "^0.7.2",
+    "bitquery": "0.3.128",
+    "bitsocket": "0.0.73",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "interlevel": "0.0.6",
+    "ip": "^1.1.5",
+    "p-queue": "^3.0.0"
+  }
+}

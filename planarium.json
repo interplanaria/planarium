@@ -1,0 +1,6 @@
+{
+  "port": 3000,
+  "timeout": 50000,
+  "concurrency": { "aggregate": 7 },
+  "log": true
+}
