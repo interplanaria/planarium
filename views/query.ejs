@@ -188,7 +188,6 @@ td.cell {
   max-height: 100px;
 }
 </style>
-<link rel="stylesheet" href="/assets/query.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <!--<script src="/theme-idle_fingers.js"></script>-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js"></script>
@@ -204,7 +203,7 @@ td.cell {
   {{#each items}}
     <tr>
       {{#each values}}
-      <td valign='top' class='cell {{k}}'>{{{v}}}</td>
+        <td valign='top' class='cell {{k}}' data-value='{{{fv}}}'>{{{v}}}</td>
       {{/each}}
     </tr>
   {{/each}}
@@ -244,6 +243,11 @@ document.addEventListener("DOMContentLoaded", function(e) {
         e.target.classList.remove("expanded");
       } else {
         e.target.classList.add("expanded");
+      }
+    } else if (e.target.classList.contains("cell")) {
+      if (e.target.children.length === 0) {
+        let val = e.target.dataset.value
+        e.target.textContent = val
       }
     }
   })
@@ -315,7 +319,11 @@ var matryoshka = function(nested_keys, rows) {
           var c = JSON.stringify(row[k], null, 2)
           return { k: k, v: "<pre>" + c + "</pre>" }
         } else {
-          return { k: k, v: Handlebars.Utils.escapeExpression(row[k]) }
+          if (row[k] && row[k].toString().length > 200) {
+            return { k: k, fv: Handlebars.Utils.escapeExpression(row[k]), v: Handlebars.Utils.escapeExpression(row[k].slice(0,200) + "...") }
+          } else {
+            return { k: k, fv: Handlebars.Utils.escapeExpression(row[k]), v: Handlebars.Utils.escapeExpression(row[k]) }
+          }
         }
       })
     }
