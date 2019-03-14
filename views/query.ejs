@@ -247,7 +247,9 @@ document.addEventListener("DOMContentLoaded", function(e) {
     } else if (e.target.classList.contains("cell")) {
       if (e.target.children.length === 0) {
         let val = e.target.dataset.value
-        e.target.textContent = val
+        if (val && val.length > 0) {
+          e.target.textContent = val
+        }
       }
     }
   })

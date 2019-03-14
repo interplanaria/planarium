@@ -191,6 +191,17 @@ var init = async function(routes) {
     console.log("# Bitquery Initialized...")
     topics[gene.planaria.address] = gene.planarium.socket.topics
     transforms[gene.planaria.address] = gene.planarium.transform
+
+    // oncreate
+    if (gene.planarium.query && gene.planarium.query.api && gene.planarium.query.api.oncreate) {
+      let oncreate = gene.planarium.query.api.oncreate
+      console.log("planarium oncreate exists", oncreate)
+      let fpath = "/fs/" + address
+      console.log("fs path = ", fpath)
+      await oncreate({ fs: { path: fpath } })
+    } else {
+      console.log("oncreate doesn't exist")
+    }
   }
   console.log("# Bitsocket init", topics)
   sock = await bitsocket.init({
@@ -395,6 +406,19 @@ var init = async function(routes) {
       app.get(path, handler)
     })
   }
+  Object.keys(GENES).forEach(function(addr) {
+    let gene = GENES[addr].planarium
+    if(gene.query && gene.query.api && gene.query.api.routes) {
+      console.log("# Custom routes for", addr, "\n", gene.query.api.routes)
+      Object.keys(gene.query.api.routes).forEach(function(path) {
+        let resolvedPath = "/" + addr + path
+        let handler = gene.query.api.routes[path]
+        console.log("resolved path = ", resolvedPath)
+        console.log("handler = ", handler)
+        app.get(resolvedPath, handler)
+      })
+    }
+  })
 
 
   app.listen(DEFAULT_WEB_PORT, () => {
