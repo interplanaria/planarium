@@ -176,13 +176,22 @@ var init = async function(routes) {
   for (let i=0; i<addresses.length; i++) {
     let address = addresses[i]
     let gene = GENES[address]
-    let db = await bitquery.init({
-      url: "mongodb://" + (process.env.HOST ? process.env.HOST : ip.address()) + ":" + PLANA_CONFIG.mongo.port,
-      address: gene.planaria.address,
-      sort: gene.planarium.query.api.sort,
-      transform:  gene.planarium.transform,
-      timeout: gene.planarium.query.api.timeout
-    }).catch(function(e) {
+
+    // build options
+    let options = {
+      url: "mongodb://" + (process.env.HOST ? process.env.HOST : ip.address()) + ":" + PLANA_CONFIG.mongo.port
+    }
+    if (gene.planaria.address) options.address = gene.planaria.address
+    if (gene.planarium.query && gene.planarium.query.api) {
+      let api = gene.planarium.query.api
+      if (api.sort) options.sort = api.sort
+      if (api.limit) options.limit = api.limit
+      if (api.timeout) options.timeout = api.timeout
+    }
+    if (gene.planarium.transform) options.transform = gene.planarium.transform
+
+    // bitquery init
+    let db = await bitquery.init(options).catch(function(e) {
       console.log("Error", e)
     })
     Manager[gene.planaria.address] = {

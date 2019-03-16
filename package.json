@@ -14,7 +14,7 @@
     "axios": "^0.18.0",
     "bcode": "0.0.7",
     "bitcoind-rpc": "^0.7.2",
-    "bitquery": "0.3.133",
+    "bitquery": "0.3.135",
     "bitsocket": "0.0.73",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
