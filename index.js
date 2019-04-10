@@ -162,7 +162,7 @@ var init = async function(routes) {
     kv.get("genes", function(err, val) {
       if (err) console.log(err)
       meta.info.genes = val
-      if (process.env.JOIN) {
+      if (process.env.JOIN === 'true') {
         join()
       }
     })
@@ -181,6 +181,8 @@ var init = async function(routes) {
     let options = {
       url: "mongodb://" + (process.env.HOST ? process.env.HOST : ip.address()) + ":" + PLANA_CONFIG.mongo.port
     }
+    if (process.env.MONGO) options.url = process.env.MONGO
+    if (process.env.MONGO_HOST && process.env.MONGO_PORT) options.url = "mongodb://" + process.env.MONGO_HOST + ":" + process.env.MONGO_PORT
     if (gene.planaria.address) options.address = gene.planaria.address
     if (gene.planarium.query && gene.planarium.query.api) {
       let api = gene.planarium.query.api
@@ -213,16 +215,26 @@ var init = async function(routes) {
     }
   }
   console.log("# Bitsocket init", topics)
+  let mongo_config = {}
+  if (process.env.MONGO_HOST) {
+    mongo_config.host = process.env.MONGO_HOST
+  } else if (process.env.HOST) {
+    mongo_config.host = process.env.HOST
+  } else {
+    mongo_config.host = ip.address()
+  }
+  if (process.env.MONGO_PORT) {
+    mongo_config.port = process.env.MONGO_PORT
+  } else {
+    mongo_config.port = PLANA_CONFIG.mongo.port
+  }
   sock = await bitsocket.init({
     bit: {
       zmq: {
         host: "planaria",
         port: PLANA_CONFIG.zmq.port
       },
-      mongo: {
-        host: (process.env.HOST ? process.env.HOST : ip.address()),
-        port: PLANA_CONFIG.mongo.port
-      },
+      mongo: mongo_config
     },
     topics: topics,
     transform: transforms,
