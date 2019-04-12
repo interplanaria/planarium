@@ -25,7 +25,7 @@ try {
     console.log("# Overriding", k, ":", override[k])
   }
 } catch (e) { }
-console.log("# Final ENV:")
+console.log("# Final Planarium ENV:")
 console.log("#", JSON.stringify(process.env, null, 2))
 console.log("####################")
 
